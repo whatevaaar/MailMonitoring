@@ -18,7 +18,7 @@
   <!-- JQVMap -->
   <link rel="stylesheet" href="plugins/jqvmap/jqvmap.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="dist/css/adminlte.css">
   <!-- overlayScrollbars -->
   <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <!-- Daterange picker -->
@@ -66,8 +66,8 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="index3.html" class="brand-link">
-        <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+      <a href="index.html" class="brand-link">
+        <img src="dist/img/AdminLTELogo.png" alt="Logo Extrategia" class="brand-image img-circle elevation-3"
           style="opacity: .8">
         <span class="brand-text font-weight-light">Extrategia</span>
       </a>
@@ -135,7 +135,7 @@
                 <li class="nav-item">
                   <a href="./index.html" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Cementos Moctezume</p>
+                    <p>Cementos Moctezuma</p>
                   </a>
                 </li>
                 <li class="nav-item">
@@ -189,7 +189,7 @@
                 <li class="nav-item">
                   <a href="./index.html" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Ey</p>
+                    <p>EY</p>
                   </a>
                 </li>
                 <li class="nav-item">
@@ -350,6 +350,14 @@
     <div class="content-wrapper">
       <!-- Content Header (Page header) -->
       <div class="content-header">
+        <!-- Alertas -->
+        <div class="alert alert-success fade show" role="alert">
+          <strong> Éxito!</strong> Datos actualizados con éxito.
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
@@ -374,7 +382,7 @@
               <!-- small box -->
               <div class="small-box bg-success">
                 <div class="inner">
-                  <h3>53<sup style="font-size: 20px">%</sup></h3>
+                  <h3 id="tasa-apertura">Leyendo<sup style="font-size: 20px">%</sup></h3>
 
                   <p>Tasa de apertura</p>
                 </div>
@@ -389,9 +397,9 @@
               <!-- small box -->
               <div class="small-box bg-warning">
                 <div class="inner">
-                  <h3>44</h3>
+                  <h3 id="correos-enviados-h3">Leyendo</h3>
 
-                  <p>Cuentas de clientes</p>
+                  <p>Correos Enviados</p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-person-add"></i>
@@ -404,7 +412,7 @@
               <!-- small box -->
               <div class="small-box bg-danger">
                 <div class="inner">
-                  <h3>65</h3>
+                  <h3 id="correos-leidos-h3">Leyendo</h3>
 
                   <p>Correos abiertos</p>
                 </div>
@@ -495,44 +503,6 @@
             <!-- right col (We are only adding the ID to make the widgets sortable)-->
             <section class="col-lg-5 connectedSortable">
 
-              <!-- Map card -->
-              <div class="card bg-gradient-primary">
-                <div class="card-header border-0">
-                  <h3 class="card-title">Datos por fecha</h3>
-                  <!-- card tools -->
-                  <div class="card-tools">
-                    <button type="button" class="btn btn-primary btn-sm daterange" data-toggle="tooltip"
-                      title="Date range">
-                      <i class="far fa-calendar-alt"></i>
-                    </button>
-                    <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse"
-                      data-toggle="tooltip" title="Collapse">
-                      <i class="fas fa-minus"></i>
-                    </button>
-                  </div>
-                  <!-- /.card-tools -->
-                </div>
-                <!-- /.card-body-->
-                <div class="card-footer bg-transparent">
-                  <div class="row">
-                    <div class="col-4 text-center">
-                      <div id="sparkline-1"></div>
-
-                    </div>
-                    <!-- ./col -->
-                    <div class="col-4 text-center">
-                      <div id="sparkline-2"></div>
-                    </div>
-                    <!-- ./col -->
-                    <div class="col-4 text-center">
-                      <div id="sparkline-3"></div>
-                    </div>
-                    <!-- ./col -->
-                  </div>
-                  <!-- /.row -->
-                </div>
-              </div>
-              <!-- /.card -->
 
               <!-- solid sales graph -->
               <div class="card bg-gradient-info">
@@ -593,30 +563,30 @@
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form role="form">
+                <form role="form" id="formulario" onsubmit="insertar(); return false">
                   <div class="card-body">
                     <div class="form-group">
-                      <label for="exampleInputEmail1">Cuenta</label>
-                      <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Vitalmex" disabled>
+                      <label for="entrada_cuenta">Cuenta</label>
+                      <input type="text" class="form-control" id="entrada_cuenta" value="Iberdrola" disabled>
                     </div>
                     <div class="form-group">
                       <label for="input-fecha">Fecha</label>
                       <div class="input-group-prepend">
                         <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
-                        <input id="input-fecha" type="text" class="form-control" data-inputmask-alias="datetime"
+                        <input id="input-fecha" type="date" class="form-control" data-inputmask-alias="datetime"
                           data-inputmask-inputformat="dd/mm/yyyy" data-mask="" im-insert="false">
                       </div>
                     </div>
                     <div class="form-group">
-                      <label for="replyNumber">Correos Envíados</label>
+                      <label for="input-correos-enviados">Correos Envíados</label>
                       <i class="fas fa-envelope input-prefix"></i>
-                      <input type="number" class="form-control" id="replyNumber" min="0"
+                      <input type="number" class="form-control" id="input-correos-enviados" min="0"
                         data-bind="value:replyNumber" />
                     </div>
                     <div class="form-group">
-                      <label for="replyNumber2">Correos Leídos</label>
+                      <label for="input-correos-leidos">Correos Leídos</label>
                       <i class="fa fa-envelope-open" aria-hidden="true"></i>
-                      <input type="number" class="form-control" id="replyNumber2" min="0"
+                      <input type="number" class="form-control" id="input-correos-leidos" min="0"
                         data-bind="value:replyNumber" />
                     </div>
                   </div>
@@ -650,21 +620,20 @@
   <!-- /.control-sidebar -->
   </div>
   <!-- ./wrapper -->
-
+  <!--Alertas-->
+  <!--SCRIPTS-->
+  <!--Firebase-->
+  <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-database.js"></script>
   <!-- jQuery -->
   <script src="plugins/jquery/jquery.min.js"></script>
   <!-- jQuery UI 1.11.4 -->
   <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
-  <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-  <script>
-    $.widget.bridge('uibutton', $.ui.button)
-  </script>
   <!-- Bootstrap 4 -->
   <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
   <!-- ChartJS -->
   <script src="plugins/chart.js/Chart.min.js"></script>
-  <!-- Sparkline -->
-  <script src="plugins/sparklines/sparkline.js"></script>
   <!-- JQVMap -->
   <script src="plugins/jqvmap/jquery.vmap.min.js"></script>
   <script src="plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
@@ -679,22 +648,34 @@
   <script src="plugins/summernote/summernote-bs4.min.js"></script>
   <!-- overlayScrollbars -->
   <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-  <!-- AdminLTE App -->
+  <!-- Panel -->
   <script src="dist/js/adminlte.js"></script>
-  <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
   <script src="dist/js/pages/dashboard.js"></script>
-  <!-- AdminLTE for demo purposes -->
   <script src="dist/js/demo.js"></script>
+  <script src="dist/js/firebase-scripts.js"></script>
   <!-- InputMask -->
   <script src="plugins/moment/moment.min.js"></script>
   <script src="plugins/inputmask/min/jquery.inputmask.bundle.min.js"></script>
 
   <script>
-    $(document).ready(function($){
-    //Datemask dd/mm/yyyy
-    $("#input-fecha").inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
-  })
-</script>
+    $.widget.bridge('uibutton', $.ui.button);
+    $(document).ready(function ($) {
+      //Actualizacion inicial
+      actualizar(document.getElementById('entrada_cuenta').value);
+      //Datemask dd/mm/yyyy
+      $("#input-fecha").inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+      //Navbar script
+      $('.nav li a').click(function (e) {
+        let nombre = $(this).text().trim()
+        if (LISTA_DE_CLIENTES.indexOf(nombre) >= 0) {
+          $('.nav li a.active').removeClass('active');
+          $(this).addClass('active');
+          e.preventDefault();
+          actualizar(nombre);
+        }
+      });
+    });
+  </script>
 </body>
 
 </html>
