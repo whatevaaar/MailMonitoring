@@ -4,7 +4,6 @@ const LISTA_DE_CLIENTES = ['Iberdrola', 'ICA', 'Newmont', 'Newmont Brend', 'Vita
   'CanastaXmexico', 'ADI', 'Edenred', 'CENACED', 'Fundary', 'Stendhalpharma y Maypo'];
 const MESES = ['Enero', 'Febrero', 'Marzo', 'April', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
 
-var FECHA_HOY = new Date();
 
 $(function () {
 
@@ -101,12 +100,38 @@ function actualizarDatasets(dato) {
   let index = fecha.getMonth()
   datosGraficaMailingLeidos[index] += Number(dato.correos_leidos);
   datosGraficaMailingEnviados[index] += Number(dato.correos_enviados);
-  datosGraficaTasa[index] = Number( ((datosGraficaMailingLeidos[index] / datosGraficaMailingEnviados[index]) * 100).toFixed(2) );
+  datosGraficaTasa[index] = Number(((datosGraficaMailingLeidos[index] / datosGraficaMailingEnviados[index]) * 100).toFixed(2));
 }
 
 function crearFecha(fecha) {
   let partes = fecha.split('-');
   return new Date(partes[0], partes[1] - 1, partes[2]);
+}
+
+function actualizarFecha(fecha) {
+  let nuevaFecha = fecha.getAttribute("data-day");
+  console.log(fecha.getAttribute("data-day"));
+  let partes = nuevaFecha.split('/');
+  var inputFecha = partes[2] + "-" + partes[0] + "-" + partes[1];
+  $('#input-fecha').val(inputFecha);
+  actualizarFormulario();
+}
+
+function actualizarFormulario() {
+  var cuenta = document.getElementById('entrada_cuenta').value;
+  var fecha = document.getElementById('input-fecha').value;
+  firebase.database().ref('cuentas/' + cuenta + '/' + fecha).on("value", snap => {
+    if (snap.exists()) {
+      let dato = snap.val();
+      document.getElementById('input-correos-leidos').value = dato.correos_leidos;
+      document.getElementById('input-correos-enviados').value = dato.correos_enviados;
+    }
+   else{
+     
+      document.getElementById('input-correos-leidos').value = "";
+      document.getElementById('input-correos-enviados').value = "";
+   } 
+  });
 }
 
 function actualizarGraficas() {
