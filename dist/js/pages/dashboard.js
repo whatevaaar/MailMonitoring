@@ -69,7 +69,7 @@ var datosGraficaMailingEnviados = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 var datosGraficaMailingLeidos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 var datosGraficaMailingEnviadosSemanal = [0, 0, 0, 0, 0, 0, 0];
 var datosGraficaMailingLeidosSemanal = [0, 0, 0, 0, 0, 0, 0];
-var datosGraficaTasa = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+var datosGraficaTasa = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 function actualizar(nombre) {
 
   datosGraficaMailingEnviados = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -85,10 +85,9 @@ function actualizar(nombre) {
       totalEnviados += Number(dato.correos_enviados);
       totalLeidos += Number(dato.correos_leidos);
     });
-
     document.getElementById("tasa-mensual").value = datosGraficaTasa[new Date().getMonth()];
     document.getElementById("tasa-maxima").value = Math.max.apply(Math, datosGraficaTasa);
-    document.getElementById("tasa-promedio").value = (datosGraficaTasa.reduce((a,b) => (a+b)) / 12 ).toFixed(1);
+    document.getElementById("tasa-promedio").value = (datosGraficaTasa.reduce((a, b) => (a + b)) / 12).toFixed(1);
     document.getElementById("tasa-apertura").innerHTML = (((totalLeidos / totalEnviados) * 100).toFixed(2)).toString() + '%';
     document.getElementById("correos-enviados-h3").innerHTML = totalEnviados;
     document.getElementById("correos-leidos-h3").innerHTML = totalLeidos;
@@ -99,10 +98,10 @@ function actualizar(nombre) {
 
 function actualizarDatasets(dato) {
   let fecha = crearFecha(dato.fecha);
-  let index = fecha.getMonth() 
+  let index = fecha.getMonth()
   datosGraficaMailingLeidos[index] += Number(dato.correos_leidos);
   datosGraficaMailingEnviados[index] += Number(dato.correos_enviados);
-  datosGraficaTasa[index] = ((datosGraficaMailingLeidos[index] / datosGraficaMailingEnviados[index] ) * 100).toFixed(2)
+  datosGraficaTasa[index] = Number( ((datosGraficaMailingLeidos[index] / datosGraficaMailingEnviados[index]) * 100).toFixed(2) );
 }
 
 function crearFecha(fecha) {
