@@ -1,7 +1,10 @@
-const LISTA_DE_CLIENTES = ['Iberdrola','ICA','Newmont','Newmont Brend','Vitalmex','Chemours','Farmacias del Ahorro','Cementos Moctezuma',
-                          'Canon','Element','José Cuervo','Mitsubishi','Dell EMC','Caden','Axalta','Emilio Moro','EY','Siemens',
-                          'Panamericansilver','Anafapyt','Mckinsey','IDEI','Del Fuerte','CORONOVIRUS INDUSTRIAS','GBM TEMPORAL','Cuervo Especial',
-                          'CanastaXmexico','ADI','Edenred','CENACED','Fundary','Stendhalpharma y Maypo'];
+const LISTA_DE_CLIENTES = ['Iberdrola', 'ICA', 'Newmont', 'Newmont Brend', 'Vitalmex', 'Chemours', 'Farmacias del Ahorro', 'Cementos Moctezuma',
+  'Canon', 'Element', 'José Cuervo', 'Mitsubishi', 'Dell EMC', 'Caden', 'Axalta', 'Emilio Moro', 'EY', 'Siemens',
+  'Panamericansilver', 'Anafapyt', 'Mckinsey', 'IDEI', 'Del Fuerte', 'CORONOVIRUS INDUSTRIAS', 'GBM TEMPORAL', 'Cuervo Especial',
+  'CanastaXmexico', 'ADI', 'Edenred', 'CENACED', 'Fundary', 'Stendhalpharma y Maypo'];
+const MESES = ['Enero', 'Febrero', 'Marzo', 'April', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+
+var FECHA_HOY = new Date();
 
 $(function () {
 
@@ -64,11 +67,14 @@ $(function () {
 
 var datosGraficaMailingEnviados = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 var datosGraficaMailingLeidos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-
+var datosGraficaMailingEnviadosSemanal = [0, 0, 0, 0, 0, 0, 0];
+var datosGraficaMailingLeidosSemanal = [0, 0, 0, 0, 0, 0, 0];
+var datosGraficaTasa = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 function actualizar(nombre) {
 
   datosGraficaMailingEnviados = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   datosGraficaMailingLeidos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  datosGraficaTasa = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   document.getElementById('entrada_cuenta').value = nombre;
   firebase.database().ref('cuentas/' + nombre + '/').on("value", snap => {
     let totalEnviados = 0;
@@ -78,9 +84,11 @@ function actualizar(nombre) {
       actualizarDatasets(dato);
       totalEnviados += Number(dato.correos_enviados);
       totalLeidos += Number(dato.correos_leidos);
-      console.log(typeof dato.fecha);
     });
 
+    document.getElementById("tasa-mensual").value = datosGraficaTasa[new Date().getMonth()];
+    document.getElementById("tasa-maxima").value = Math.max.apply(Math, datosGraficaTasa);
+    document.getElementById("tasa-promedio").value = (datosGraficaTasa.reduce((a,b) => (a+b)) / 12 ).toFixed(1);
     document.getElementById("tasa-apertura").innerHTML = (((totalLeidos / totalEnviados) * 100).toFixed(2)).toString() + '%';
     document.getElementById("correos-enviados-h3").innerHTML = totalEnviados;
     document.getElementById("correos-leidos-h3").innerHTML = totalLeidos;
@@ -91,8 +99,10 @@ function actualizar(nombre) {
 
 function actualizarDatasets(dato) {
   let fecha = crearFecha(dato.fecha);
-  datosGraficaMailingLeidos[fecha.getMonth()] += Number(dato.correos_leidos);
-  datosGraficaMailingEnviados[fecha.getMonth()] += Number(dato.correos_enviados);
+  let index = fecha.getMonth() 
+  datosGraficaMailingLeidos[index] += Number(dato.correos_leidos);
+  datosGraficaMailingEnviados[index] += Number(dato.correos_enviados);
+  datosGraficaTasa[index] = ((datosGraficaMailingLeidos[index] / datosGraficaMailingEnviados[index] ) * 100).toFixed(2)
 }
 
 function crearFecha(fecha) {
@@ -108,8 +118,7 @@ function actualizarGraficas() {
   //$('#revenue-chart').get(0).getContext('2d');
 
   var salesChartData = {
-    labels: ['Enero', 'Febrero', 'Marzo', 'April', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre',
-      'Octubre', 'Noviembre', 'Diciembre'],
+    labels: MESES,
     datasets: [
       {
         label: 'Correos Leídos',
@@ -183,10 +192,10 @@ function actualizarGraficas() {
     },
     maintainAspectRatio: false,
     responsive: true,
-    animation:{
-      animateRotate:true,
-      animateScale:true
-    } 
+    animation: {
+      animateRotate: true,
+      animateScale: true
+    }
   }
   //Create pie or douhnut chart
   // You can switch between pie and douhnut using the method below.
@@ -200,10 +209,10 @@ function actualizarGraficas() {
   //$('#revenue-chart').get(0).getContext('2d');
 
   var salesGraphChartData = {
-    labels: ['2011 Q1', '2011 Q2', '2011 Q3', '2011 Q4', '2012 Q1', '2012 Q2', '2012 Q3', '2012 Q4', '2013 Q1', '2013 Q2'],
+    labels: MESES,
     datasets: [
       {
-        label: 'Digital Goods',
+        label: 'Tasa de Apertura',
         fill: false,
         borderWidth: 2,
         lineTension: 0,
@@ -213,7 +222,7 @@ function actualizarGraficas() {
         pointHoverRadius: 7,
         pointColor: '#efefef',
         pointBackgroundColor: '#efefef',
-        data: [2666, 2778, 4912, 3767, 6810, 5670, 4820, 15073, 10687, 8432]
+        data: datosGraficaTasa
       }
     ]
   }
@@ -237,7 +246,7 @@ function actualizarGraficas() {
       }],
       yAxes: [{
         ticks: {
-          stepSize: 5000,
+          stepSize: 10,
           fontColor: '#efefef',
         },
         gridLines: {
