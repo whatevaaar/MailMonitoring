@@ -64,6 +64,11 @@ $(function () {
 
 })
 
+function limpiarFormulario() {
+    document.getElementById('input-fecha').value = "";
+    document.getElementById('input-correos-leidos').value = "";
+    document.getElementById('input-correos-enviados').value = "";
+}
 var datosGraficaMailingEnviados = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 var datosGraficaMailingLeidos = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 var datosGraficaMailingEnviadosSemanal = [0, 0, 0, 0, 0, 0, 0];
@@ -91,6 +96,7 @@ function actualizar(nombre) {
     document.getElementById("correos-enviados-h3").innerHTML = totalEnviados;
     document.getElementById("correos-leidos-h3").innerHTML = totalLeidos;
     actualizarGraficas();
+    limpiarFormulario();
 
   });
 }
