@@ -31,11 +31,6 @@ function insertar() {
     });
 }
 
-function limpiarFormulario() {
-    document.getElementById('input-fecha').value = "";
-    document.getElementById('input-correos-leidos').value = "";
-    document.getElementById('input-correos-enviados').value = "";
-}
 
 function mostrarAlertaExito() {
     $(document).ready(function () {
