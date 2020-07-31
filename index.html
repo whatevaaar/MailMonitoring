@@ -159,7 +159,7 @@
                 <li class="nav-item">
                   <a href="./index.html" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>DellEMC</p>
+                    <p>Dell EMC</p>
                   </a>
                 </li>
                 <li class="nav-item">
@@ -593,6 +593,7 @@
       //Navbar script
       $('.nav li a').click(function (e) {
         let nombre = $(this).text().trim()
+        console.log(nombre);
         if (LISTA_DE_CLIENTES.indexOf(nombre) >= 0) {
           $('.nav li a.active').removeClass('active');
           $(this).addClass('active');

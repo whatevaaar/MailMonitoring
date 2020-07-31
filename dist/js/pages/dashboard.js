@@ -1,6 +1,6 @@
 const LISTA_DE_CLIENTES = ['Iberdrola', 'ICA', 'Newmont', 'Newmont Brend', 'Vitalmex', 'Chemours', 'Farmacias del Ahorro', 'Cementos Moctezuma',
   'Canon', 'Element', 'José Cuervo', 'Mitsubishi', 'Dell EMC', 'Caden', 'Axalta', 'Emilio Moro', 'EY', 'Siemens',
-  'Panamericansilver', 'Anafapyt', 'Mckinsey', 'IDEI', 'Del Fuerte', 'CORONOVIRUS INDUSTRIAS', 'GBM TEMPORAL', 'Cuervo Especial',
+  'Pan American Silver', 'Anafapyt', 'McKinsey', 'IDEI', 'Del Fuerte', 'Coronavirus - Industrias', 'GBM TEMPORAL', 'Cuervo - Matutino',
   'CanastaXmexico', 'ADI', 'Edenred', 'CENACED', 'Fundary', 'Stendhalpharma y Maypo'];
 const MESES = ['Enero', 'Febrero', 'Marzo', 'April', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
 
